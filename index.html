@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obiekt Latający Sterowany Klawiaturą</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body background="space.png">
+    <header id="header">
+        <p>Welcome to the Spaceship game</p>
+    </header>
+    <div class="instructions">
+        <div  id="mainDiv">
+            Press W or S to move forward or backward.<br>
+            Press A or D to rotate left or right.
+        </div>
+        <div id="gameField" class="gameField">
+            <img src="rocket1.png" id="tankBot" class="spaceship">
+            <img src="rocket2.png" id="tank" class="spaceship">
+        </div>
+        <div id="gameInfo">
+            <h3 onclick="startGame()" class="button">
+                Click to start the game
+            </h3>
+            <p>
+                Points: 
+            </p>
+        </div>
+    </div> 
+</br>
+    <script src="script.js"></script>
+</body>
+</html>

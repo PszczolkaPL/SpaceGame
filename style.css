@@ -1,0 +1,58 @@
+@font-face {
+    font-family: "Spacefont";
+    src: url('Spacefont.eot?#iefix') format('embedded-opentype'),
+         url('FSpacefont.eot'),
+         url('Spacefont.woff') format('woff'), 
+         url('Spacefont.ttf')  format('truetype'),
+         url('Spacefont.svg#svgFontName') format('svg');
+}
+  
+  
+html *{
+    font-family: 'Spacefont';
+    font-size: 150%;
+    text-align: center;
+    color: #FCB925;
+  
+}
+  
+body{
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+  
+.instructions{
+    font-size: 90%;
+}
+#gameInfo{
+    font-size: 100%;
+}
+
+.gameField{
+    border-color: red;
+    border-style: dashed;
+    height: 550px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.button{
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+}
+.button:hover{
+    cursor: pointer;
+}
+.fadeOut{
+    opacity: 0;
+}
+
+.spaceship {
+    width: 50px;
+    height: 50px;
+
+    background-color: transparent;
+    position: absolute;
+}
