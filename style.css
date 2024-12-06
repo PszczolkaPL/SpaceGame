@@ -13,34 +13,30 @@ html *{
     font-size: 150%;
     text-align: center;
     color: #FCB925;
-  
 }
   
 body{
-    margin: 0;
-    padding: 0;
-    position: relative;
+    overflow: hidden;
 }
   
 .instructions{
     font-size: 90%;
 }
 #gameInfo{
-    font-size: 100%;
+    font-size: 110%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding-bottom: 3%;
+ 
 }
-
-.gameField{
-    border-color: red;
-    border-style: dashed;
-    height: 550px;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
 .button{
     background-color: transparent;
     border-color: transparent;
     text-decoration: underline;
+    transition: opacity 1s ease;
 }
 .button:hover{
     cursor: pointer;
@@ -49,10 +45,29 @@ body{
     opacity: 0;
 }
 
+.asteroid{
+    height: 10px;
+    width: 10px;
+
+    background-color: rgb(255, 0, 0);
+    border-radius: 5px;
+
+    z-index: 1;
+    position: absolute;
+}
+
 .spaceship {
     width: 50px;
     height: 50px;
 
     background-color: transparent;
     position: absolute;
+}
+
+.fade {
+    transition: opacity 1s ease;
+}
+ 
+.hidden {
+    opacity: 0;
 }

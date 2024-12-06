@@ -11,23 +11,22 @@
         <p>Welcome to the Spaceship game</p>
     </header>
     <div class="instructions">
-        <div  id="mainDiv">
+        <div  id="mainDiv" class="fade">
             Press W or S to move forward or backward.<br>
             Press A or D to rotate left or right.
         </div>
-        <div id="gameField" class="gameField">
-            <img src="rocket1.png" id="tankBot" class="spaceship">
-            <img src="rocket2.png" id="tank" class="spaceship">
-        </div>
-        <div id="gameInfo">
-            <h3 onclick="startGame()" class="button">
+ 
+        <img src="rocket2.png" id="ship" class="spaceship">
+        <div id="asteroidContainer"></div>
+       
+        <div id="gameInfo" >
+            <h3 onclick="startGame()" class="button" id = "button">
                 Click to start the game
             </h3>
-            <p>
-                Points: 
+            <p id = "points">
             </p>
         </div>
-    </div> 
+    </div>
 </br>
     <script src="script.js"></script>
 </body>

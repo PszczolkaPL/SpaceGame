@@ -2,11 +2,11 @@ document.addEventListener('keydown', handleKeyDown);
 document.addEventListener('keyup', handleKeyUp);
 
 
-const tankBot = document.getElementById('tankBot');
-const tankUser = document.getElementById('tank');
+const asteroidContainer  = document.getElementById('asteroidContainer');
+const shipUser = document.getElementById('ship');
+const points = document.getElementById('points');
 
-const gameField = document.getElementById('gameField');
-
+let i = 0;
 // Initial X and Y position
 let posX; 
 let posY;
@@ -14,26 +14,18 @@ let posY;
 let posXBot;
 let posYBot; 
 
-const speed = 5;
-const botSpeed = 1;
-let rotateTank = 0;
-let rotateTankBot = 0;
+const asteroids = [];
+const numAsteroids = 5;
 
-const gameFieldReact = gameField.getBoundingClientRect();
+const speed = 5;
+const botSpeed = 7;
 
 function setDefaultPostion(){
-    posX =  gameFieldReact.left + gameFieldReact.width / 2; 
-    posY = gameFieldReact.top + gameFieldReact.height / 2;
-    console.log(posX + " " + posY)
+    posX =  window.innerWidth / 2; 
+    posY = window.innerHeight / 2;
 
-    posXBot = gameField.right / 2 - 25;
-    posYBot = gameField.left / 2 - 300; 
-
-    tankBot.style.left = posXBot + 'px';
-    tankBot.style.top = posYBot + 'px';
-
-    tankUser.style.left = posX + 'px';
-    tankUser.style.top = posY + 'px';
+    shipUser.style.left = posX + 'px';
+    shipUser.style.top = posY + 'px';
 }
 
 const keys = {
@@ -44,6 +36,7 @@ const keys = {
 };
 
 setDefaultPostion();
+
 function handleKeyDown(event) {
     if (event.key === 'ArrowLeft' | event.key === 'a') {
         keys.left = true;
@@ -73,7 +66,7 @@ function handleKeyUp(event) {
     }
 }
 
-function moveUserTank() {
+function moveUsership() {
     if (keys.left) {
         posX -= speed;
     } 
@@ -88,12 +81,11 @@ function moveUserTank() {
     }
 
 
-    //nie dziala
-    posX = Math.max(gameFieldReact.left, Math.min(gameFieldReact.right - 50, posX));
-    posY = Math.max(gameFieldReact.top, Math.min(gameFieldReact.bottom - 200, posY));
+    posX = Math.max(0, Math.min(window.innerWidth - 50, posX));
+    posY = Math.max(0, Math.min(window.innerHeight - 100, posY));
 
-    tankUser.style.left = posX + 'px';
-    tankUser.style.top = posY + 'px';
+    shipUser.style.left = posX + 'px';
+    shipUser.style.top = posY + 'px';
 }
 
 
@@ -107,31 +99,80 @@ function isColliding(rect1, rect2) {
     );
 }
 
+
+function createAsteroids() {
+        const asteroid = document.createElement('div');
+        asteroid.classList.add('asteroid');
+        asteroidContainer.appendChild(asteroid);
+
+        // Generate random position on one of the edges
+        const edge = Math.floor(Math.random() * 4);
+        let posXBot, posYBot;
+
+        switch (edge) {
+            case 0: // Top edge
+                posXBot = Math.random() * window.innerWidth;
+                posYBot = 0;
+                break;
+            case 1: // Right edge
+                posXBot = window.innerWidth;
+                posYBot = Math.random() * window.innerHeight;
+                break;
+            case 2: // Bottom edge
+                posXBot = Math.random() * window.innerWidth;
+                posYBot = window.innerHeight;
+                break;
+            case 3: // Left edge
+                posXBot = 0;
+                posYBot = Math.random() * window.innerHeight;
+                break;
+        }
+
+        asteroid.style.left = posXBot + 'px';
+        asteroid.style.top = posYBot + 'px';
+
+        const dx = posX - posXBot;
+        const dy = (posY+25) - posYBot;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        const moveX = (dx / distance) * botSpeed;
+        const moveY = (dy / distance) * botSpeed;
+
+        asteroids.push({ 
+            asteroid,
+            posXBot,
+            posYBot,
+            moveX,
+            moveY
+        });
+}
+
 function moveBot() {
-    // Calculate direction towards the user's tank
-    const dx = posX - posXBot;
-    const dy = posY - posYBot;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+    asteroids.forEach((asteroidObj, index) => {
+        // Move the bot toward the user ship
+        asteroidObj.posXBot += asteroidObj.moveX;
+        asteroidObj.posYBot += asteroidObj.moveY;
 
-    // Normalize direction (move in the direction of the user tank)
-    const moveX = dx / distance * botSpeed;
-    const moveY = dy / distance * botSpeed;
+        // Update the bot's position
+        asteroidObj.asteroid.style.left = asteroidObj.posXBot + 'px';
+        asteroidObj.asteroid.style.top = asteroidObj.posYBot + 'px';
 
-    // Move the bot toward the user tank
-    posXBot += moveX;
-    posYBot += moveY;
-
-    // Update the bot's position
-    tankBot.style.left = posXBot + 'px';
-    tankBot.style.top = posYBot + 'px';
+        if (
+            asteroidObj.posXBot < 0 || asteroidObj.posXBot > window.innerWidth || 
+            asteroidObj.posYBot < 0 || asteroidObj.posYBot > window.innerHeight
+        ) {
+            asteroidObj.asteroid.remove();
+            asteroids.splice(index, 1); // Remove the asteroid from the array
+        }
+    })
 }
 
 let isGameRunning = true;
 function gameLoop() {
     if (!isGameRunning){
-        document.getElementById("mainDiv").classList.remove("fadeOut");
-        document.getElementById("header").classList.remove("fadeOut");
-        document.getElementById("gameInfo").classList.remove("fadeOut");
+        document.getElementById("mainDiv").classList.remove("hidden");
+        document.getElementById("header").classList.remove("hidden");
+        document.getElementById("button").classList.remove("hidden");
         setDefaultPostion();
         keys.left = false;
         keys.right = false;
@@ -140,17 +181,29 @@ function gameLoop() {
         return;
     }
 
-    moveUserTank();
+    moveUsership();
     moveBot();
 
-    const userTankRect = tankUser.getBoundingClientRect();
-    const botTankRect = tankBot.getBoundingClientRect();
+    const usershipRect = shipUser.getBoundingClientRect();
+    asteroids.forEach((asteroidObj, index) => {
+        const asteroid = asteroidObj.asteroid;
+        const asteroidRect = asteroid.getBoundingClientRect();
 
-    if (isColliding(userTankRect, botTankRect)) {
-        // alert("You lost, try again.")
-        // isGameRunning = false;
-        console.log("Dodtkely sie")
-    }
+        // Check for collision
+        if (isColliding(usershipRect, asteroidRect)) {
+            alert("Game Over")
+            isGameRunning = false;
+            asteroid.remove();
+            asteroids.splice(index, 1);
+            clearInterval(asteroidCreateInterval);
+            clearInterval(pointsInterval);
+            i = 0;
+            asteroids.forEach(asteroidObj => {
+                asteroidObj.asteroid.remove(); // Remove asteroid DOM element
+            });
+            asteroids.length = 0;
+        }
+    });
 
     requestAnimationFrame(gameLoop);
 }
@@ -159,7 +212,16 @@ function gameLoop() {
 function startGame(){
     isGameRunning = true;
     gameLoop();
-    document.getElementById("mainDiv").classList.add("fadeOut");
-    document.getElementById("header").classList.add("fadeOut");
-    document.getElementById("gameInfo").classList.add("fadeOut");
+    asteroidCreateInterval = setInterval(createAsteroids, 1000);
+    pointsInterval = setInterval(() => {
+        points.innerText = "Points: " + i++;  // Update points every second
+    }, 1000);
 }
+
+document.getElementById('button').addEventListener('click', function() {
+    var teksty = document.getElementsByClassName('fade');
+    button.classList.add('hidden');
+    Array.from(teksty).forEach(function(tekst) {
+        tekst.classList.add('hidden'); // Dodanie klasy 'ukryty' do każdego elementu
+    });
+});
