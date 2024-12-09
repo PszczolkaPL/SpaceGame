@@ -13,9 +13,8 @@ let posY;
 let posXBot;
 let posYBot; 
 
-//Stworzenie tablicy z asteroidami oraz zdefiniowanie ich ilosci
+//Create array for asteroids
 const asteroids = [];
-const numAsteroids = 5;
 
 const speed = 5;
 const botSpeed = 7;
@@ -106,6 +105,7 @@ function isColliding(rect1, rect2) {
 
 
 function createAsteroids() {
+        //Create asteroid, add a class and add to array
         const asteroid = document.createElement('div');
         asteroid.classList.add('asteroid');
         asteroidContainer.appendChild(asteroid);
@@ -154,14 +154,14 @@ function createAsteroids() {
 
 function moveBot() {
     asteroids.forEach((asteroidObj, index) => {
-        // Move the bot toward the user ship
+        // Asteroid movement 
         asteroidObj.posXBot += asteroidObj.moveX;
         asteroidObj.posYBot += asteroidObj.moveY;
 
-        // Update the bot's position
         asteroidObj.asteroid.style.left = asteroidObj.posXBot + 'px';
         asteroidObj.asteroid.style.top = asteroidObj.posYBot + 'px';
 
+        // Checking if asteroid is out of the screen
         if (
             asteroidObj.posXBot < 0 || asteroidObj.posXBot > window.innerWidth || 
             asteroidObj.posYBot < 0 || asteroidObj.posYBot > window.innerHeight
@@ -172,8 +172,11 @@ function moveBot() {
     })
 }
 
+//Game loop it;s working unless variable isGameRunning = false
 let isGameRunning = true;
 function gameLoop() {
+
+    //What happens when the game stops
     if (!isGameRunning){
         document.getElementById("mainDiv").classList.remove("hidden");
         document.getElementById("header").classList.remove("hidden");
@@ -186,9 +189,11 @@ function gameLoop() {
         return;
     }
 
+    //Ship and asteroid movement
     moveUsership();
     moveBot();
 
+    //Checking if asteroid collide with the user
     const usershipRect = shipUser.getBoundingClientRect();
     asteroids.forEach((asteroidObj, index) => {
         const asteroid = asteroidObj.asteroid;
