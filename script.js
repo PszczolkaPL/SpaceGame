@@ -11,7 +11,6 @@ const bestScore = document.getElementById('bestScore');
 let i = 0;
 let z = 0;
 
-// Initial X and Y position
 let posX; 
 let posY;
 
