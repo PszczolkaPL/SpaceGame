@@ -7,6 +7,8 @@ const shipUser = document.getElementById('ship');
 const points = document.getElementById('points');
 
 let i = 0;
+let z = 0;
+
 // Initial X and Y position
 let posX; 
 let posY;
@@ -15,7 +17,7 @@ let posXBot;
 let posYBot; 
 
 const asteroids = [];
-const numAsteroids = 5;
+
 
 const speed = 5;
 const botSpeed = 7;

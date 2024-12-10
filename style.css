@@ -50,6 +50,10 @@ body{
     width: 7vh;
     background-image: url('asteroid.png');
     background-size: cover;
+
+    border-color: #FCB925;
+    border-style: dashed;
+
     z-index: 1;
     position: absolute;
     transition: transform 0.1s ease;
@@ -60,6 +64,9 @@ body{
 .spaceship {
     width: 60px;
     height: 60px;
+
+    border-color: #FCB925;
+    border-style: dashed;
 
     background-color: transparent;
     position: absolute;
