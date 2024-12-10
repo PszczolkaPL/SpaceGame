@@ -56,21 +56,17 @@ body{
 
     z-index: 1;
     position: absolute;
-    transition: transform 0.1s ease;
 }
 
-
-
 .spaceship {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
 
     border-color: #FCB925;
     border-style: dashed;
 
     background-color: transparent;
     position: absolute;
-    transition: transform 0.5s ease;
 }
 
 .fade {
@@ -79,4 +75,8 @@ body{
  
 .hidden {
     opacity: 0;
+}
+
+#bestScore{
+    font-size: 80%;
 }
