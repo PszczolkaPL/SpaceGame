@@ -45,21 +45,26 @@ setDefaultPostion();
 function handleKeyDown(event) {
     if (event.key === 'ArrowLeft' | event.key === 'a') {
         keys.left = true;
-        shipUser.style.rotate = 270 + 'deg';
+        // Smoothly rotate the ship to the left (270 degrees)
+        shipUser.style.transform = 'rotate(-90deg)';
     }
     if (event.key === 'ArrowRight' | event.key === 'd') {
         keys.right = true;
-        shipUser.style.rotate = 90 + 'deg';
+        // Smoothly rotate the ship to the right (90 degrees)
+        shipUser.style.transform = 'rotate(90deg)';
     }
     if (event.key === 'ArrowUp' | event.key === 'w') {
         keys.up = true;
-        shipUser.style.rotate = 0 + 'deg';
+        // Smoothly rotate the ship upwards (0 degrees)
+        shipUser.style.transform = 'rotate(0deg)';
     }
     if (event.key === 'ArrowDown' | event.key === 's') {
         keys.down = true;
-        shipUser.style.rotate = 180 + 'deg';
+        // Smoothly rotate the ship downward (180 degrees)
+        shipUser.style.transform = 'rotate(180deg)';
     }
 }
+
 function handleKeyUp(event) {
     if (event.key === 'ArrowLeft' | event.key === 'a') {
         keys.left = false;
@@ -138,6 +143,8 @@ function createAsteroids() {
                 posYBot = Math.random() * window.innerHeight;
                 break;
         }
+        const rotationAngle = Math.random() * 360; // Random angle between 0 and 360 degrees
+        asteroid.style.transform = `rotate(${rotationAngle}deg)`; // Apply the random rotation
 
         asteroid.style.left = posXBot + 'px';
         asteroid.style.top = posYBot + 'px';
@@ -148,6 +155,7 @@ function createAsteroids() {
 
         const moveX = (dx / distance) * botSpeed;
         const moveY = (dy / distance) * botSpeed;
+        rotationValue = Math.random() * 10 - 5;
         
         //Push asteroid with new variables 
         asteroids.push({ 
@@ -155,7 +163,9 @@ function createAsteroids() {
             posXBot,
             posYBot,
             moveX,
-            moveY
+            moveY,
+            rotationAngle,
+            rotationValue
         });
 }
 
@@ -167,8 +177,15 @@ function moveBot() {
 
         asteroidObj.asteroid.style.left = asteroidObj.posXBot + 'px';
         asteroidObj.asteroid.style.top = asteroidObj.posYBot + 'px';
+        
+        
+        asteroidObj.rotationAngle += asteroidObj.rotationValue;
 
-        // Checking if asteroid is out of the screen
+        // Apply the updated rotation to the asteroid
+        asteroidObj.asteroid.style.transform = `rotate(${asteroidObj.rotationAngle}deg)`; 
+        asteroidObj.asteroid.style.transition = 'transform 0.1s ease'; 
+ 
+         // Check if the asteroid goes off-screen
         if (
             asteroidObj.posXBot < 0 || asteroidObj.posXBot > window.innerWidth || 
             asteroidObj.posYBot < 0 || asteroidObj.posYBot > window.innerHeight
