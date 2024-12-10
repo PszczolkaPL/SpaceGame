@@ -71,3 +71,7 @@ body{
 .hidden {
     opacity: 0;
 }
+
+#bestScore{
+    font-size: 80%;
+}

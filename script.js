@@ -4,9 +4,13 @@ document.addEventListener('keyup', handleKeyUp);
 
 const asteroidContainer  = document.getElementById('asteroidContainer');
 const shipUser = document.getElementById('ship');
+
 const points = document.getElementById('points');
+const bestScore = document.getElementById('bestScore');
 
 let i = 0;
+let z = 0;
+
 let posX; 
 let posY;
 
@@ -19,7 +23,7 @@ const asteroids = [];
 const speed = 5;
 const botSpeed = 7;
 
-//ustawienie statku na odpowiednim miejscu
+//Deafault positioning of the ship
 function setDefaultPostion(){
     posX =  window.innerWidth / 2; 
     posY = window.innerHeight / 2;
@@ -37,6 +41,7 @@ const keys = {
 
 setDefaultPostion();
 
+//checking which key was pressed 
 function handleKeyDown(event) {
     if (event.key === 'ArrowLeft' | event.key === 'a') {
         keys.left = true;
@@ -70,6 +75,7 @@ function handleKeyUp(event) {
     }
 }
 
+//Updating User ship position
 function moveUsership() {
     if (keys.left) {
         posX -= speed;
@@ -93,7 +99,7 @@ function moveUsership() {
 }
 
 
-
+//Check if two objects are collading
 function isColliding(rect1, rect2) {
     return (
         rect1.left < rect2.right &&
@@ -142,7 +148,8 @@ function createAsteroids() {
 
         const moveX = (dx / distance) * botSpeed;
         const moveY = (dy / distance) * botSpeed;
-
+        
+        //Push asteroid with new variables 
         asteroids.push({ 
             asteroid,
             posXBot,
@@ -209,7 +216,11 @@ function gameLoop() {
             //Usuniencie wszelkich procesow ktore dzialaja w czasie gry
             clearInterval(asteroidCreateInterval);
             clearInterval(pointsInterval);
-
+            if(z < i){
+                z = i;
+                bestScore.innerText = "Best score: " + z;
+            }
+            botSpeed = 7;
             i = 0; //wyzerowanie timera
             asteroids.forEach(asteroidObj => {
                 asteroidObj.asteroid.remove(); //Usuniencie wszystkich asteroid ktore sa na zapisane w tabeli po zakonczeniu kodu
@@ -228,6 +239,9 @@ function startGame(){
     asteroidCreateInterval = setInterval(createAsteroids, 1000);
     pointsInterval = setInterval(() => {
         points.innerText = "Points: " + i++;  // Update points every second
+        if(i > 20){
+            botSpeed += 10;
+        }
     }, 1000);
 }
 
