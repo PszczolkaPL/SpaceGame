@@ -209,9 +209,10 @@ function gameLoop() {
 
     //What happens when the game stops
     if (!isGameRunning){
-        document.getElementById("mainDiv").classList.remove("hidden");
-        document.getElementById("header").classList.remove("hidden");
-        document.getElementById("button").classList.remove("hidden");
+        var teksty = document.getElementsByClassName('fade');
+        Array.from(teksty).forEach(function(tekst) {
+            tekst.classList.remove('hidden'); // Dodanie klasy 'ukryty' do każdego elementu
+        });
         setDefaultPostion();
         keys.left = false;
         keys.right = false;
@@ -260,6 +261,10 @@ function buttonClickAction(){
         buttonClick = true;
         startGame();
     }
+    var teksty = document.getElementsByClassName('fade');
+    Array.from(teksty).forEach(function(tekst) {
+        tekst.classList.add('hidden'); // Dodanie klasy 'ukryty' do każdego elementu
+    });
 }
 
 // Start the game
@@ -274,11 +279,3 @@ function startGame(){
         }
     }, 1000);
 }
-
-document.getElementById('button').addEventListener('click', function() {
-    var teksty = document.getElementsByClassName('fade');
-    button.classList.add('hidden');
-    Array.from(teksty).forEach(function(tekst) {
-        tekst.classList.add('hidden'); // Dodanie klasy 'ukryty' do każdego elementu
-    });
-});

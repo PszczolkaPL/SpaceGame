@@ -36,10 +36,15 @@ body{
     background-color: transparent;
     border-color: transparent;
     text-decoration: underline;
+
     transition: opacity 1s ease;
 }
 .button:hover{
     cursor: pointer;
+    color: #fac550;
+}
+.button:active {
+    font-size: 130%;
 }
 .fadeOut{
     opacity: 0;
