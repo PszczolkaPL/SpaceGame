@@ -238,11 +238,11 @@ function gameLoop() {
 
             //Usuniencie wszelkich procesow ktore dzialaja w czasie gry
             clearInterval(asteroidCreateInterval);
-            clearInterval(pointsInterval);
             if(z < i){
                 z = i;
                 bestScore.innerText = "Best score: " + z;
             }
+            clearInterval(pointsInterval);
             botSpeed = 7;
             i = 0; //wyzerowanie timera
             asteroids.forEach(asteroidObj => {
@@ -274,8 +274,8 @@ function startGame(){
     asteroidCreateInterval = setInterval(createAsteroids, 1000);
     pointsInterval = setInterval(() => {
         points.innerText = "Points: " + i++; // Update points every second
-        if(i == 20){
-            botSpeed += 5;
+        if(i%5 == 0 && i>0){
+            botSpeed += 2;
         }
     }, 1000);
 }
