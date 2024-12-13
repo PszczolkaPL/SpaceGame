@@ -240,7 +240,7 @@ function gameLoop() {
             clearInterval(asteroidCreateInterval);
             if(z < i){
                 z = i;
-                bestScore.innerText = "Best score: " + z;
+                bestScore.innerText = "Best score: " + z-1;
             }
             clearInterval(pointsInterval);
             botSpeed = 7;
@@ -275,7 +275,7 @@ function startGame(){
     pointsInterval = setInterval(() => {
         points.innerText = "Points: " + i++; // Update points every second
         if(i%5 == 0 && i>0){
-            botSpeed += 2;
+            botSpeed += 1;
         }
     }, 1000);
 }
